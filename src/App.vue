@@ -1,10 +1,10 @@
-<script setup>
+<!-- <script setup>
 import { getEpg } from '@/services.js'
 
 const epgData = await getEpg()
 console.log('data', epgData)
-</script>
+</script> -->
 
 <template>
-  <div>Hello !</div>
+  <router-view/>
 </template>
