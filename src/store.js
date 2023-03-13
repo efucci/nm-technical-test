@@ -17,7 +17,7 @@ const store = createStore({
   getters: {
     fetchChannelsLoading (state) {
       return state.fetchChannelsStatus === LOADING_STATUS
-    },
+    }
   },
   mutations: {
     fetchChannelsRequest (state) {
