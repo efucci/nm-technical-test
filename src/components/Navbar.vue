@@ -1,10 +1,10 @@
 <template>
- <header>
+  <header>
     <div class="inner">
       <font-awesome-icon icon="user" size="xl" />
-      <font-awesome-icon icon="fa-face-smile" class="smile-icon" size="xl" />
+      <font-awesome-icon icon="fa-face-smile" class="color-primary" size="xl" />
       <font-awesome-icon icon="fa-magnifying-glass" size="xl" />
-      </div>
+    </div>
   </header>
 </template>
 
@@ -25,8 +25,11 @@ header {
     justify-content: space-between;
     box-sizing: border-box;
   }
-  .smile-icon {
-    color: orange;
+  svg {
+    cursor: pointer;
+    &:hover {
+      color: $primary;
+    }
   }
 }
 </style>

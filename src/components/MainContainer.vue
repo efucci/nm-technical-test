@@ -1,12 +1,23 @@
 <script setup>
   import Navbar from '@/components/Navbar.vue'
   import Footer from '@/components/Footer.vue'
+  import Spinner from '@/components/Spinner.vue'
+  
+  const props = defineProps({
+    loading: {
+      type: Boolean,
+      default: false
+    },
+  })
 </script>
 
 <template>
   <Navbar />
     <main class="main-container" >
-      <slot />
+      <Spinner v-if="loading" class="spinner" />
+      <div v-else>
+        <slot />
+      </div>
     </main>
   <Footer />
 </template>

@@ -23,6 +23,12 @@ footer {
     justify-content: space-between;
     padding: .8rem;
   }
+  svg {
+    cursor: pointer;
+    &:hover {
+      color: $primary;
+    }
+  }
 }
 </style>
 
