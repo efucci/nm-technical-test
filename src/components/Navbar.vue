@@ -16,6 +16,7 @@ header {
   right: 0;
   background-color: black;
   height: $header-height;
+  z-index: 100;
 
   .inner {
     padding: .8rem;

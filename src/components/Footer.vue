@@ -18,6 +18,7 @@ footer {
   left: 0;
   background-color: #202020;
   height: $footer-height;
+  z-index: 100;
   .inner {
     display: flex;
     justify-content: space-between;

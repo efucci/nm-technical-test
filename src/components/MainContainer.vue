@@ -23,9 +23,11 @@
 </template>
 <style scoped>
 .main-container {
-  display: flex;
   padding: 3rem 0;
   box-sizing: border-box;
   width: 100vw;
+}
+.spinner {
+  margin: 3rem auto;
 }
 </style>
