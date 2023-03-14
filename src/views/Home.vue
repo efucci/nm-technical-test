@@ -3,16 +3,15 @@ import MainContainer from '@/components/MainContainer.vue'
 import TabDate from '@/components/TabDate.vue'
 import ProgramBox from '@/components/ProgramBox.vue'
 import ChannelList from '@/components/ChannelList.vue'
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, onUnmounted, computed, ref } from 'vue'
 import { useStore } from 'vuex'
+import { shiftByTime, scrollToNow } from '@/utils.js'
+
+const INTERVAL_TIME = 60000 // 1 minute
+let interval = null
 
 const store = useStore()
 const loading = computed(() => store.getters.fetchChannelsLoading)
-
-onMounted(async () => {
-  await store.dispatch('fetchChannels')
-})
-
 const activeTab = ref(0)
 const timeline = ref(null)
 const yellowline = ref(null)
@@ -28,16 +27,23 @@ for(let i=0; i < 24; i++) {
 }
 const channels = computed(() => store.state.channels)
 
-function scrollToNow() {
-  if (timeline.value) {
-    console.log(timeline.value, yellowline.value)
-    const container = timeline.value
-    const shiftX = yellowline.value.offsetLeft
-    console.log('on click', shiftX)
-    container.scrollTo(shiftX, 0, {behavior: "smooth"})
-    // element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+onMounted(async () => {
+  await store.dispatch('fetchChannels')
+  shiftByTime(yellowline.value) // init yellow line position
+  scrollToNow(timeline.value, yellowline.value.offsetLeft) //init timeline view based on y.l. position
+  // start setInterval for yellow line moving
+  if (!interval) {
+    interval = setInterval(function () {
+      shiftByTime(yellowline.value)
+    }, INTERVAL_TIME)
   }
-}
+})
+
+onUnmounted (() => {
+  console.log('unmounted ')
+  clearInterval(interval)
+  interval = null
+})
 </script>
 
 <template>
@@ -60,7 +66,7 @@ function scrollToNow() {
               <ProgramBox v-for="program in channel.schedules" :program="program"/>
             </div>
           </div>
-          <button class="now-btn" @click="scrollToNow()"><strong>NOW</strong></button>
+          <button class="now-btn" @click="scrollToNow(timeline, yellowline.offsetLeft)"><strong>NOW</strong></button>
         </div>
         <div v-else>
           No timeline avaible
@@ -143,7 +149,7 @@ function scrollToNow() {
   min-height: 100%;
   width: 3px;
   position: absolute;
-  left: 1000px;
+  left: 0;
   background-color: darkgoldenrod;
 }
 </style>
